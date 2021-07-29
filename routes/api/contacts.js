@@ -1,60 +1,22 @@
 const express = require('express')
 const router = express.Router()
-const Contacts = require('../../model')
-const { validationCreateContact, validationUpdateContact } = require('./validation')
+const controller = require('../../controllers/index')
+const {
+  validationCreateContact,
+  validationUpdateContact,
+  validationUpdateStatusContact,
+} = require('../../validation/validation')
 
-router.get('/', async (req, res, next) => {
-  try {
-    const result = await Contacts.listContacts()
-    return res.json({ status: 'succes', code: 200, data: { result } })
-  } catch (err) {
-    next(err)
-  }
-})
+router.get('/', controller.listContacts)
 
-router.get('/:contactId', async (req, res, next) => {
-  try {
-    const result = await Contacts.getContactById(req.params.contactId)
-    if (result) {
-      return res.json({ status: 'succes', code: 200, data: { result } })
-    }
-    return res.json({ status: 'error', code: 404, message: 'Not found' })
-  } catch (err) {
-    next(err)
-  }
-})
+router.post('/', validationCreateContact, controller.addContact)
 
-router.post('/', validationCreateContact, async (req, res, next) => {
-  try {
-    const result = await Contacts.addContact(req.body)
-    res.status(201).json({ status: 'succes', code: 201, data: { result } })
-  } catch (e) {
-    next(e)
-  }
-})
+router.get('/:contactId', controller.getContactById)
 
-router.delete('/:contactId', async (req, res, next) => {
-  try {
-    const result = await Contacts.removeContact(req.params.contactId)
-    if (result) {
-      return res.json({ status: 'succes', code: 200, data: { result } })
-    }
-    return res.json({ status: 'error', code: 404, message: 'Not found' })
-  } catch (err) {
-    next(err)
-  }
-})
+router.put('/:contactId', validationUpdateContact, controller.updateContact)
 
-router.patch('/:contactId', validationUpdateContact, async (req, res, next) => {
-  try {
-    const result = await Contacts.updateContact(req.params.contactId, req.body)
-    if (result) {
-      return res.json({ status: 'succes', code: 200, data: { result } })
-    }
-    return res.json({ status: 'error', code: 404, message: 'Not found' })
-  } catch (err) {
-    next(err)
-  }
-})
+router.delete('/:contactId', controller.removeContact)
+
+router.patch('/:contactId/favorite', validationUpdateStatusContact, controller.updateContact)
 
 module.exports = router

@@ -1,4 +1,5 @@
 const Joi = require('joi')
+const mongoose = require('mongoose')
 
 const schemaCreateContact = Joi.object({
   name: Joi.string().alphanum().min(3).max(30).required(),
@@ -30,6 +31,10 @@ const schemaUpdateContact = Joi.object({
     .optional(),
 })
 
+const schemaUpdateStatusContact = Joi.object({
+  favorite: Joi.boolean().required(),
+})
+
 const validate = async (schema, obj, next) => {
   try {
     await schema.validateAsync(obj)
@@ -48,5 +53,8 @@ module.exports = {
   },
   validationUpdateContact: (req, _, next) => {
     return validate(schemaUpdateContact, req.body, next)
+  },
+  validationUpdateStatusContact: (req, res, next) => {
+    return validate(schemaUpdateStatusContact, req.body, next)
   },
 }
