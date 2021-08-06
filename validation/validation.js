@@ -39,6 +39,7 @@ const validate = async (schema, obj, next) => {
     await schema.validateAsync(obj)
     next()
   } catch (err) {
+    console.log(err)
     next({
       status: 400,
       message: 'missing fields',

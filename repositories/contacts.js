@@ -1,4 +1,3 @@
-/* 53:57 */
 const Contact = require('../model/contactShema')
 
 const addContact = async body => {
