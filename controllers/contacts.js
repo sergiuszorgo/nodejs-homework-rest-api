@@ -96,6 +96,7 @@ const updateContact = async (req, res, next) => {
       })
     }
   } catch (error) {
+    console.log(error) // проверка ошибки
     next(error)
   }
 }

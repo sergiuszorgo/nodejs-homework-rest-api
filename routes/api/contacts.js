@@ -1,11 +1,11 @@
 const express = require('express')
 const router = express.Router()
-const controller = require('../../controllers/index')
+const controller = require('../../controllers/contacts')
 const {
   validationCreateContact,
   validationUpdateContact,
   validationUpdateStatusContact,
-} = require('../../validation/validation')
+} = require('../../validation/contacts')
 
 router.get('/', controller.listContacts)
 
