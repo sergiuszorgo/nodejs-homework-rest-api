@@ -33,19 +33,9 @@ const updateToken = async (id, token) => {
   }
 }
 
-const updateUserSubscription = async (userId, body) => {
-  try {
-    const updatedStatus = await User.findByIdAndUpdate(userId, { ...body }, { new: true })
-    return updatedStatus
-  } catch (error) {
-    console.log(error)
-  }
-}
-
 module.exports = {
   createUser,
   findById,
   findByEmail,
   updateToken,
-  updateUserSubscription,
 }

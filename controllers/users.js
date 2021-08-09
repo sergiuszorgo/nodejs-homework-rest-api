@@ -73,42 +73,9 @@ const current = async (req, res, next) => {
   }
 }
 
-const update = async (req, res, next) => {
-  try {
-    const userId = req.user.id
-    if (req.body) {
-      const user = await Users.updateUserSubscription(userId, req.body)
-      const { name, email, subscription } = user
-      if (user) {
-        return res.status(200).json({
-          status: 'success',
-          code: 200,
-          data: { name, email, subscription },
-        })
-      }
-      return res.status(404).json({
-        status: 'error',
-        code: 404,
-        message: 'Contact not found!',
-        data: 'Not Found',
-      })
-    } else {
-      return res.status(400).json({
-        status: 'error',
-        code: 400,
-        message: 'Missing fields',
-        data: 'Missing fields',
-      })
-    }
-  } catch (error) {
-    next(error)
-  }
-}
-
 module.exports = {
   register,
   login,
   logout,
   current,
-  update,
 }
