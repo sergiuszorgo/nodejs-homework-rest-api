@@ -1,4 +1,5 @@
 const { Schema, model } = require('mongoose')
+const gravatar = require('gravatar')
 const bcrypt = require('bcryptjs')
 const SALT_WORK_FACTOR = 8
 
@@ -12,6 +13,10 @@ const userSchema = new Schema(
       type: String,
       required: [true, 'Email is required'],
       unique: true,
+      validate(value) {
+        const re = /\S+@\S+\.\S+/g
+        return re.test(String(value).toLowerCase())
+      },
     },
     subscription: {
       type: String,
@@ -21,6 +26,12 @@ const userSchema = new Schema(
     token: {
       type: String,
       default: null,
+    },
+    avatarURL: {
+      type: String,
+      default: function () {
+        return gravatar.url(this.email, { s: '250' }, true)
+      },
     },
   },
   {
